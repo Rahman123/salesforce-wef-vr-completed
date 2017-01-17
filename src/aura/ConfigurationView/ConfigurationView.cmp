@@ -1,0 +1,32 @@
+<aura:component controller="ConfigurationController">
+    <aura:attribute access="public" name="configuration" type="Configuration__c" required="true"/>
+    <aura:attribute access="private" name="briefs" type="Brief__c[]"/>
+    <aura:attribute access="private" name="brief" type="Brief__c"/>
+    <aura:attribute access="private" name="objectInstances" type="Object_Instance__c[]"/>
+    <aura:attribute access="private" name="objectDefinitions" type="Object_Definition__c[]"/>
+    <aura:attribute access="private" name="resources" type="Object"/>
+    <aura:attribute access="private" name="attributesLoaded" type="Object"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler event="c:DropEvent" action="{!c.handleDropEvent}"/>
+    
+    <div class="slds-align--absolute-center" style="max-width:650px;">
+        <div class="slds-form--horizontal slds-p-around--small" style="width:100%;">
+            <lightning:select name="brief" aura:id="brief" label="Brief" value="{!v.configuration.Brief__c}" onchange="{!c.onChangeBrief}"/>
+        </div>
+    </div>
+
+    <div class="slds-grid slds-wrap slds-grid--pull-padded slds-align--absolute-center" style="max-width:650px;">    
+        <c:ConfigurationOverview brief="{!v.brief}" resources="{!v.resources}"/>
+    </div>
+    
+    <div class="slds-grid slds-wrap slds-grid--pull-padded slds-p-around--medium">
+        <div class="slds-size--1-of-2 slds-p-horizontal--small">
+            <c:ObjectDefinitionList objectDefinitions="{!v.objectDefinitions}"/>
+        </div>
+        <div class="slds-size--1-of-2 slds-p-horizontal--small">
+            <c:ObjectInstanceList objectInstances="{!v.objectInstances}"/>
+        </div>
+    </div>
+    
+</aura:component>

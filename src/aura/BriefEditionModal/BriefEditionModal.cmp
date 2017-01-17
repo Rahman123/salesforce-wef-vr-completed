@@ -1,0 +1,64 @@
+<aura:component controller="BriefController">
+    <aura:attribute access="public" name="modalId" type="string" required="true"/>
+    <aura:attribute access="public" name="title" type="string" required="true"/>
+    <aura:attribute access="public" name="brief" type="Brief__c" required="true"/>
+    <aura:attribute access="private" name="isFormValid" type="boolean" default="false"/>
+    <aura:attribute access="private" name="formValidation" type="object[]" default="[]"/>
+    
+    <aura:registerEvent name="modalClose" type="c:ModalCloseEvent"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler name="change" value="{!v.formValidation}" action="{!c.updateFormValidity}"/>
+    
+    <div role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <div class="slds-modal__header">
+                <h2 class="slds-text-heading--medium">{!v.title}</h2>
+            </div>
+            
+            <!-- MODAL CONTENT START -->
+            <div class="slds-modal__content slds-p-around--medium">
+                <div class="slds-form--stacked slds-m-bottom--medium">
+                    <lightning:input name="name" label="Brief Name" value="{!v.brief.Name}" required="true" validity="{!v.formValidation[0]}"/>
+                    <lightning:select name="client" aura:id="client" label="Client" value="{!v.brief.Client__c}" required="true" validity="{!v.formValidation[1]}">
+                        <option value="">- Choose one -</option>
+                    </lightning:select>
+                    <lightning:input name="date" label="Delivery Date" value="{!v.brief.Delivery_Date__c}" type="date" required="true" validity="{!v.formValidation[2]}"/>
+                    <lightning:input name="budget" label="Budget" value="{!v.brief.Budget__c}" type="number" formatter="currency" min="0" max="900000" step="1" required="true" validity="{!v.formValidation[3]}"/>
+                </div>
+                
+                <fieldset class="slds-form--compound slds-m-bottom--medium">
+                    <legend class="slds-form-element__label slds-text-title--caps">Location</legend>
+                    <div class="slds-form-element__group slds-m-horizontal--medium">
+                        <div class="slds-form-element__row">
+                            <lightning:select name="country" aura:id="country" label="Country" value="{!v.brief.Country__c}" class="slds-size--1-of-2" required="true" validity="{!v.formValidation[4]}">
+                                <option value="">- Choose one -</option>
+                            </lightning:select>
+                            <lightning:input name="town" label="Town" value="{!v.brief.Town__c}" class="slds-size--1-of-2" maxlength="100" required="true" validity="{!v.formValidation[5]}"/>
+                        </div>
+                    </div>
+                </fieldset>
+                
+                <div class="slds-form--stacked slds-m-bottom--large">
+                    <lightning:select name="climate" aura:id="climate" label="Climate" value="{!v.brief.Climate__c}" required="true" validity="{!v.formValidation[6]}">
+                        <option value="">- Choose one -</option>
+                    </lightning:select>
+                    <lightning:select name="size" label="Available Space" value="{!v.brief.Available_Space__c}" required="true" validity="{!v.formValidation[7]}">
+                        <option value="">- Choose one -</option>
+                        <option value="1">1 Container</option>
+                        <option value="2">2 Containers</option>
+                        <option value="3">3 Containers</option>	
+                    </lightning:select>
+                    <lightning:input name="peopleSheltered" label="People Sheltered" value="{!v.brief.People_Sheltered__c}" type="number" min="0" max="999" step="1" required="true" validity="{!v.formValidation[8]}"/>
+                </div>
+            </div>
+            <!-- MODAL CONTENT END -->
+            
+            <div class="slds-modal__footer">
+                <lightning:button label="Cancel" onclick="{!c.onCancel}" />
+                <lightning:button variant="brand" label="Save" disabled="{!!v.isFormValid}" onclick="{!c.onSave}" />
+            </div>
+        </div>
+    </div>
+    <div class="slds-backdrop slds-backdrop--open"></div>
+</aura:component>

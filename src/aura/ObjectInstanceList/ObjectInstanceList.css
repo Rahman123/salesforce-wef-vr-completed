@@ -1,0 +1,6 @@
+.THIS thead tr>th:first-child {padding-left:0.5rem; width:30px;}
+.THIS tbody tr>td:first-child {padding-left:0.5rem;}
+.THIS .slds-table--striped tbody tr:nth-of-type(even)>td {background-color:rgba(244, 246, 249, 0.5);}
+
+.THIS .dz-available .dropzone {background-color:rgba(66, 255, 0, 0.1);}
+.THIS .dz-hovered .dropzone {background-color:rgba(255, 255, 0, 0.3);}

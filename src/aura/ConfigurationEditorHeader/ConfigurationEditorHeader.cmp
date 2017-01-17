@@ -1,0 +1,38 @@
+<aura:component controller="ConfigurationController">
+    <aura:attribute name="configuration" type="Configuration__c"/>
+    <aura:attribute name="onDeselectConfiguration" type="Aura.Action" default="{!c.onDeselectConfiguration}"/>
+    <aura:attribute name="modal" type="Aura.Component"/>
+    
+    <aura:registerEvent name="configurationDeselection" type="c:ConfigurationDeselectionEvent"/>
+    
+    <aura:handler name="modalClose" event="c:ModalCloseEvent" action="{!c.handleModalClose}"/>
+    
+    <div class="slds-page-header" role="banner">
+        <div class="slds-grid">
+            <div class="slds-col slds-has-flexi-truncate">
+                <div class="slds-media slds-no-space slds-grow">
+                    <div class="slds-media__figure" onclick="{!v.onDeselectConfiguration}">
+                        <lightning:icon iconName="custom:custom67" size="medium"/>
+                    </div>
+                    <div class="slds-media__body">
+                        <p class="slds-text-title--caps slds-line-height--reset">Configuration Editor</p>
+                        <h1 class="slds-page-header__title slds-m-right--small slds-align-middle slds-truncate">
+                            {! (v.configuration == null) ? 'Select a configuration' : v.configuration.Name }
+                        </h1>
+                    </div>
+                </div>
+            </div>
+            <aura:if isTrue="{!v.configuration != null}">            
+                <div class="slds-col slds-no-flex slds-grid slds-align-top">
+                    <div class="slds-button-group" role="group">
+                        <lightning:button variant="neutral" label="Rename" iconName="utility:edit" iconPosition="left" onclick="{!c.onRename}"/>
+                        <lightning:button variant="neutral" label="Delete" iconName="utility:delete" iconPosition="left" onclick="{!c.onDelete}"/>
+                        <lightning:button variant="neutral" label="Back" iconName="utility:back" iconPosition="left" onclick="{!c.onDeselectConfiguration}"/>
+                    </div>
+                </div>
+            </aura:if>
+        </div>
+    </div>
+    
+    {!v.modal}
+</aura:component>

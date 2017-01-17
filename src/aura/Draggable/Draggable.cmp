@@ -1,0 +1,13 @@
+<aura:component >
+    <aura:attribute access="public" name="id" type="string" required="true"/>
+    <aura:attribute access="public" name="data" type="Object"/>
+    <aura:attribute access="public" name="dropZoneId" type="string"/>
+    <aura:attribute access="public" name="isSticky" type="boolean" default="false"/>
+    
+    <aura:registerEvent name="dragEvent" type="c:DragEvent"/>
+    <aura:handler event="c:DropEvent" action="{!c.handleDropEvent}"/>
+    
+    <div id="{!v.id}" ondragstart="{!c.onDragStart}" ondragend="{!c.onDragEnd}" draggable="true">
+        {!v.body}
+    </div>
+</aura:component>

@@ -1,0 +1,12 @@
+<aura:component >
+    <aura:attribute access="public" name="popoverContent" type="Aura.Component[]" required="true"/>
+    
+    <div class="anchor">
+    	{!v.body}
+        <div class="slds-popover slds-nubbin--bottom-left" role="dialog">
+            <div class="slds-popover__body">
+                {!v.popoverContent}
+            </div>
+        </div>
+    </div>
+</aura:component>

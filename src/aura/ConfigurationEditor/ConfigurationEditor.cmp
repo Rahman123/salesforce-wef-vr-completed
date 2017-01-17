@@ -1,0 +1,15 @@
+<aura:component implements="force:appHostable">
+	<aura:attribute name="configuration" type="Configuration__c"/>
+    
+    <aura:handler name="configurationDeselection" event="c:ConfigurationDeselectionEvent" action="{!c.handleConfigurationDeselection}"/>
+    <aura:handler name="configurationSelection" event="c:ConfigurationSelectionEvent" action="{!c.handleConfigurationSelection}"/>
+    
+    <c:ConfigurationEditorHeader configuration="{!v.configuration}"/>
+        
+    <aura:if isTrue="{!v.configuration == null}">
+        <c:ConfigurationSelectionView aura:id="configurationSelectionView"/>
+        <aura:set attribute="else">
+            <c:ConfigurationView configuration="{!v.configuration}"/>
+        </aura:set>
+    </aura:if>
+</aura:component>

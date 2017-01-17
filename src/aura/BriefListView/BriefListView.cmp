@@ -1,0 +1,131 @@
+<aura:component controller="BriefController" implements="force:appHostable">
+    <aura:attribute name="briefs" type="Brief__c[]"/>
+    <aura:attribute name="briefToDelete" type="Brief__c"/>
+    <aura:attribute name="modal" type="Aura.Component"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler name="modalClose" event="c:ModalCloseEvent" action="{!c.handleModalClose}"/>
+    
+    <aura:registerEvent name="briefSelection" type="c:BriefSelectionEvent"/>
+    
+    <aura:attribute name="onSelectBrief" type="Aura.Action" default="{!c.onSelectBrief}" />
+    <aura:attribute name="onDeleteBrief" type="Aura.Action" default="{!c.onDeleteBrief}" />
+    
+    <aura:method name="refresh" action="{!c.refresh}"/>
+    
+    <!-- HEADER START -->
+    <div class="slds-page-header" role="banner">
+        <div class="slds-grid">
+            <div class="slds-col slds-has-flexi-truncate">
+                <div class="slds-media slds-no-space slds-grow">
+                    <div class="slds-media__figure">
+                        <lightning:icon iconName="custom:custom62" size="medium"/>
+                    </div>
+                    <div class="slds-media__body">
+                        <p class="slds-text-title--caps slds-m-around--x-small">Brief Editor</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- HEADER END -->
+    
+    <!-- CARD START -->
+    <lightning:card class="slds-m-around--xx-large">
+        <aura:set attribute="title">
+            Briefs <lightning:badge label="{!v.briefs.length}"/>
+        </aura:set>
+        <aura:set attribute="actions">
+            <lightning:button variant="brand" label="New" iconName="utility:add" iconPosition="left" onclick="{! c.onCreateBrief }"/>
+        </aura:set>
+        
+        <aura:if isTrue="{!v.briefs.length == 0}">
+            <div class="slds-text-heading--medium slds-m-around--xx-large slds-align--absolute-center">Start by creating a new Brief.</div>
+            <aura:set attribute="else">
+                
+                <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--striped">
+                    <thead>
+                        <tr class="slds-text-title--caps">
+                            <th scope="col">
+                                <div class="slds-truncate" title="Name">Name</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Client">Client</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Location">Location</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Climate">Climate</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Budget">Budget</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Delivery Date">Delivery Date</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="People Sheltered">People Sheltered</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Action">Action</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <aura:iteration items="{!v.briefs}" var="brief">
+                            <tr>
+                                <th scope="row" data-label="Name">
+                                    <div class="slds-truncate">
+                                        <h3 class="slds-text-heading--small">{!brief.Name}</h3>
+                                    </div>
+                                </th>
+                                <td data-label="Client">
+                                    <div class="slds-truncate">
+                                        {!brief.Client__c}
+                                    </div>
+                                </td>
+                                <td data-label="Location">
+                                    <div class="slds-truncate">
+                                        {!brief.Town__c} ({!brief.Country__c})
+                                    </div>
+                                </td>
+                                <td data-label="Climate">
+                                    <div class="slds-truncate">
+                                        {!brief.Climate__c}
+                                    </div>
+                                </td>
+                                <td data-label="Budget">
+                                    <div class="slds-truncate">
+                                        <ui:outputCurrency value="{!brief.Budget__c}" format="$#,###"/>
+                                    </div>
+                                </td>
+                                <td data-label="Delivery Date">
+                                    <div class="slds-truncate">
+                                        <ui:outputDate value="{!brief.Delivery_Date__c}"/>
+                                    </div>
+                                </td>
+                                <td data-label="People Sheltered">
+                                    <div class="slds-truncate">
+                                        {!brief.People_Sheltered__c}
+                                    </div>
+                                </td>
+                                <td data-label="Action">
+                                    <div class="slds-truncate">
+                                        <a href="javascript:void(0);" onclick="{!v.onDeleteBrief}" id="{!brief.Id}" title="Delete">
+                                            <lightning:icon iconName="utility:delete" size="x-small" alternativeText="Delete"/>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </aura:iteration>
+                    </tbody>
+                </table>
+                
+            </aura:set>
+        </aura:if>
+    </lightning:card>
+    <!-- CARD END -->
+    
+    {!v.modal}
+</aura:component>

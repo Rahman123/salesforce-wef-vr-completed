@@ -1,0 +1,38 @@
+<aura:component controller="ConfigurationController">
+    <aura:attribute access="public" name="modalId" type="string" required="true"/>
+    <aura:attribute access="public" name="title" type="string" required="true"/>
+    <aura:attribute access="public" name="isCreateMode" type="boolean" required="true"/>
+    <aura:attribute access="public" name="configuration" type="Configuration__c" required="true"/>
+    
+    <aura:attribute access="private" name="formValidation" type="object[]" default="[]"/>
+    <aura:attribute access="private" name="isFormValid" type="boolean" default="false"/>
+    
+    <aura:registerEvent name="modalClose" type="c:ModalCloseEvent"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler name="change" value="{!v.formValidation}" action="{!c.updateFormValidity}"/>
+    
+    <div role="dialog" tabindex="-1" aria-labelledby="headerNewConfigModal" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <div class="slds-modal__header">
+                <h2 class="slds-text-heading--medium">{!v.title}</h2>
+            </div>
+            <div class="slds-modal__content slds-p-around--medium">
+                
+                <lightning:input name="Name" label="Name" value="{!v.configuration.Name}" required="true" validity="{!v.formValidation[0]}"/>
+                
+                <aura:if isTrue="{!v.isCreateMode}">
+                    <lightning:select name="brief" aura:id="brief" label="Brief" value="{!v.configuration.Brief__c}" required="true" validity="{!v.formValidation[1]}">
+                        <option value="">- Choose one -</option>
+                    </lightning:select>
+                </aura:if>
+                
+            </div>
+            <div class="slds-modal__footer">
+                <lightning:button label="Cancel" onclick="{!c.onCancel}" />
+                <lightning:button variant="brand" label="Save" disabled="{!!v.isFormValid}" onclick="{!c.onSave}" />
+            </div>
+        </div>
+    </div>
+    <div class="slds-backdrop slds-backdrop--open"></div>
+</aura:component>

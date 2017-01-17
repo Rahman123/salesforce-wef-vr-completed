@@ -1,0 +1,74 @@
+<aura:component controller="ConfigurationController">
+    <aura:attribute access="public" name="objectDefinitions" type="Object_Definition__c[]" required="true"/>
+    <aura:attribute access="private" name="filteredObjectDefinitions" type="Object_Definition__c[]"/>
+    <aura:attribute access="private" name="categoryFilter" type="String" default=""/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.objectDefinitions}" action="{!c.onObjectDefinitionsChange}"/>
+
+    <lightning:card >
+        <aura:set attribute="title">Stock</aura:set>
+        <aura:set attribute="actions">
+            <div class="filter-form slds-form--inline">
+            	<lightning:select name="categoryFilter" aura:id="categoryFilter" label="Category" value="{!v.categoryFilter}" onchange="{!c.onChangeCategoryFilter}">
+                    <option value="">All</option>
+                </lightning:select>
+            </div>
+        </aura:set>
+        <c:DropZone id="dzDefinitions">
+            <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--striped dropzone">
+                <thead>
+                    <tr class="slds-text-title--caps">
+                        <th scope="col">
+                            <div class="slds-truncate" title="Name">Name</div>
+                        </th>
+                        <th scope="col">
+                            <div title="Name">Cost</div>
+                        </th>
+                        <th scope="col">
+                            <div title="Name">Power</div>
+                        </th>
+                        <th scope="col">
+                            <div title="Name">Water</div>
+                        </th>
+                        <th scope="col">&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <aura:iteration items="{!v.filteredObjectDefinitions}" var="definition">
+                        <tr>
+                            <td data-label="Name">
+                                
+                                <c:Popover >
+                                    <aura:set attribute="popoverContent">
+                                        <h3 class="slds-section-title">{!definition.Name}</h3>
+                                        <p class="slds-m-bottom--x-small">{!definition.Description__c}</p>
+                                        <c:ObjectDefinitionScreenshot objectDefinition="{!definition}"/>
+                                    </aura:set>
+                                    <a href="javascript:void(0);" id="{!definition.Id}">{!definition.Name}</a>
+                                </c:Popover>
+
+                            </td>
+                            <td data-label="Cost">
+                                <div class="slds-truncate">
+                                    <ui:outputCurrency aura:id="curr" value="{!definition.Cost__c}"/>
+                                </div>
+                            </td>
+                            <td data-label="Power">
+                                <div class="slds-truncate">{!definition.Power_Consumption__c}</div>
+                            </td>
+                            <td data-label="Water">
+                                <div class="slds-truncate">{!definition.Water_Consumption__c}</div>
+                            </td>
+                            <td>
+                                <c:Draggable id="{!'draggable-' + definition.Id}" data="{!definition}" dropZoneId="dzDefinitions" isSticky="true">
+	                                <lightning:icon iconName="utility:move" size="small"/>
+                                </c:Draggable>
+                            </td>
+                        </tr>
+                    </aura:iteration>
+                </tbody>
+            </table>
+        </c:DropZone>
+    </lightning:card>
+</aura:component>

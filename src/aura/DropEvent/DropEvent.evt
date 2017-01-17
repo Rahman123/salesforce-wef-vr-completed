@@ -1,0 +1,6 @@
+<aura:event type="APPLICATION">
+    <aura:attribute name="draggableId" type="string" required="true"/>
+    <aura:attribute name="draggableData" type="Object" required="true"/>
+    <aura:attribute name="sourceDropZoneId" type="string" required="true"/>
+    <aura:attribute name="targetDropZoneId" type="string" required="true"/>
+</aura:event>

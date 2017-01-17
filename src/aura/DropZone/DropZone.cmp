@@ -1,0 +1,11 @@
+<aura:component >
+	<aura:attribute access="public" name="id" type="string" required="true"/>
+    <aura:attribute access="private" name="sourceDropZoneId" type="string"/>
+    
+    <aura:handler event="c:DragEvent" action="{!c.handleDragEvent}"/>
+    <aura:registerEvent name="dropEvent" type="c:DropEvent"/>
+    
+    <div id="{!v.id}" aura:id="dropZone" class="dz-idle" ondrop="{!c.onDrop}" ondragenter="{!c.onDragEnter}" ondragover="{!c.onDragOver}" ondragleave="{!c.onDragLeave}">
+        {!v.body}
+    </div>
+</aura:component>

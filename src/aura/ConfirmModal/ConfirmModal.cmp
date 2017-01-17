@@ -1,0 +1,23 @@
+<aura:component >
+    <aura:attribute access="public" name="modalId" type="string" required="true"/>
+    <aura:attribute access="public" name="title" type="string" required="true"/>
+    <aura:attribute access="public" name="message" type="string" required="true"/>
+    
+    <aura:registerEvent name="modalClose" type="c:ModalCloseEvent"/>
+    
+    <div role="dialog" tabindex="-1" aria-labelledby="headerConfirmModal" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <div class="slds-modal__header">
+                <h2 id="headerConfirmModal" class="slds-text-heading--medium">{!v.title}</h2>
+            </div>
+            <div class="slds-modal__content slds-p-around--medium">
+                <aura:unescapedHtml value="{!v.message}"/>
+            </div>
+            <div class="slds-modal__footer">
+                <lightning:button label="Cancel" onclick="{!c.onCancel}" />
+                <lightning:button variant="brand" label="Confirm" onclick="{!c.onConfirm}" />
+            </div>
+        </div>
+    </div>
+    <div class="slds-backdrop slds-backdrop--open"></div>
+</aura:component>

@@ -1,0 +1,49 @@
+<aura:component >
+    <aura:attribute access="public" name="objectInstances" type="Object_Instance__c[]" required="true"/>
+    
+    <lightning:card >
+        <aura:set attribute="title">
+            Materials <lightning:badge label="{!v.objectInstances.length}"/>
+        </aura:set>
+        <c:DropZone id="dzInstances">
+            <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--striped dropzone">
+                <thead>
+                    <tr class="slds-text-title--caps">
+                        <th scope="col">&nbsp;</th>
+                        <th scope="col">
+                            <div class="slds-truncate" title="Name">Name</div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate" title="Object is placed in 3D view">Placed
+                                <lightning:icon iconName="utility:info" size="x-small" alternativeText="Help"/>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <aura:iteration items="{!v.objectInstances}" var="instance">
+                        <tr>
+                            <td>
+                                <c:Draggable id="{!'draggable-' + instance.Id}" data="{!instance}" dropZoneId="dzInstances" isSticky="true">
+	                                <lightning:icon iconName="utility:move" size="small"/>
+                                </c:Draggable>
+                            </td>
+                            <td data-label="Name">
+                                <div class="slds-truncate">
+                                    <a href="javascript:void(0);" id="{!instance.Id}">{!instance.Object_Definition__r.Name}</a>
+                                </div>
+                            </td>
+                            <td data-label="Is Placed">
+                                <aura:if isTrue="{!instance.Is_Placed__c}">
+                                    <div title="Object is placed in 3D view">
+                                        <lightning:icon iconName="utility:link" size="x-small" alternativeText="Object is placed in 3D view"/>
+                                    </div>
+                                </aura:if>
+                            </td>
+                        </tr>
+                    </aura:iteration>
+                </tbody>
+            </table>
+        </c:DropZone>
+    </lightning:card>
+</aura:component>

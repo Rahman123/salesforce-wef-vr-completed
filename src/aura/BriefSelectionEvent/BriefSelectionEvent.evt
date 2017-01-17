@@ -1,0 +1,3 @@
+<aura:event type="COMPONENT">
+    <aura:attribute name="brief" type="Brief__c"/>
+</aura:event>

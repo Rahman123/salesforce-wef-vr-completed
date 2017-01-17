@@ -1,0 +1,58 @@
+<aura:component >
+    <aura:attribute access="public" name="brief" type="Brief__c" required="true"/>
+    <aura:attribute access="public" name="resources" type="Object" required="true"/>
+    <aura:attribute access="private" name="formattedCurrency" type="String"/>
+    
+    <aura:handler name="change" value="{!v.resources}" action="{!c.onResourcesUpdated}"/>
+    
+    <div class="slds-size--1-of-1 slds-p-horizontal--small slds-p-bottom--small slds-form--horizontal">
+        <div class="slds-form-element">
+            <label class="slds-form-element__label">Client</label>
+            <div class="slds-form-element__control">
+                <input class="slds-input" type="text" value="{!v.brief.Client__c}" disabled="true"/>
+            </div>
+        </div>
+        <div class="slds-form-element">
+            <label class="slds-form-element__label">Location</label>
+            <div class="slds-form-element__control">
+                <input class="slds-input" type="text" value="{!v.brief.Town__c +' ('+ v.brief.Country__c +')'}" disabled="true"/>
+            </div>
+        </div>
+        <div class="slds-form-element">
+            <label class="slds-form-element__label">People Sheltered</label>
+            <div class="slds-form-element__control">
+                <input class="slds-input" type="text" value="{!v.brief.People_Sheltered__c}" disabled="true"/>
+            </div>
+        </div>
+    </div>
+    
+    <div class="slds-size--1-of-2 slds-p-horizontal--small slds-form--horizontal">
+        <div class="slds-form-element resource">
+            <label class="slds-form-element__label">Available Budget</label>
+            <div class="slds-form-element__control">
+                <input aura:id="budget" class="slds-input" type="text" value="{!v.formattedCurrency}" disabled="true"/>
+            </div>
+        </div>
+        <div class="slds-form-element resource">
+            <label class="slds-form-element__label">Available Power</label>
+            <div class="slds-form-element__control">
+                <input aura:id="power" class="slds-input" type="text" value="{!v.resources.power +' W'}" disabled="true"/>
+            </div>
+        </div>
+    </div>
+    <div class="slds-size--1-of-2 slds-p-horizontal--small slds-form--horizontal">
+        <div class="slds-form-element resource">
+            <label class="slds-form-element__label">Available Space</label>
+            <div class="slds-form-element__control">
+                <input aura:id="space" class="slds-input" type="text" value="{!v.resources.space}" disabled="true"/>
+            </div>
+        </div>
+        <div class="slds-form-element resource">
+            <label class="slds-form-element__label">Available Water</label>
+            <div class="slds-form-element__control">
+                <input aura:id="water" class="slds-input" type="text" value="{!v.resources.water +' L'}" disabled="true"/>
+            </div>
+        </div>
+    </div>
+    
+</aura:component>

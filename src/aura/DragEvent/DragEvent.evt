@@ -1,0 +1,4 @@
+<aura:event type="APPLICATION">
+    <aura:attribute name="isStart" type="boolean" required="true"/>
+    <aura:attribute name="sourceDropZoneId" type="string" required="true"/>
+</aura:event>
